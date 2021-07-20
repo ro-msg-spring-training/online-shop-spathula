@@ -2,9 +2,7 @@ package ro.msg.learning.shop.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,15 +11,17 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@Table(name = "customerorder")
 public class CustomerOrder extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "shippedFrom", referencedColumnName = "id")
+    @JoinColumn(name = "shippedfrom", referencedColumnName = "id")
     Location shippedFrom;
 
     @ManyToOne
     @JoinColumn(name = "customer", referencedColumnName = "id")
     Customer customer;
 
+    @Column(name = "createdat")
     private LocalDateTime createdAt;
 
     private String country;
@@ -30,6 +30,7 @@ public class CustomerOrder extends BaseEntity {
 
     private String county;
 
+    @Column(name = "streetaddress")
     private String streetAddress;
 
     @Override

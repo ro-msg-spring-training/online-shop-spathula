@@ -2,6 +2,7 @@ package ro.msg.learning.shop.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +31,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "supplier", referencedColumnName = "id")
     Supplier supplier;
 
+    @Column(name = "imageurl")
     private String imageUrl;
 
     @Override

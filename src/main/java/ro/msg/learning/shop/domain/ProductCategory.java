@@ -3,6 +3,7 @@ package ro.msg.learning.shop.domain;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@Table(name = "productcategory")
 public class ProductCategory extends BaseEntity {
     private String name;
 

@@ -2,6 +2,7 @@ package ro.msg.learning.shop.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -19,6 +20,7 @@ public class Location extends BaseEntity {
 
     private String county;
 
+    @Column(name = "streetaddress")
     private String streetAddress;
 
     @Override
