@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface StockRepository extends Repository<Stock, Integer> {
     Optional<Stock> findByProductAndLocation(Product product, Location location);
     List<Stock> findByProductOrderByQuantityDesc(Product product);
+    List<Stock> findByLocationId(Integer locationId);
 }

@@ -19,7 +19,9 @@ public class ProductDto extends BaseDto {
 
     private double weight;
 
-    ProductCategory category;
+    private int categoryId;
+
+    private String categoryName;
 
     private String imageUrl;
 
@@ -30,7 +32,7 @@ public class ProductDto extends BaseDto {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", weight=" + weight +
-                ", category=" + category +
+                ", category=" + categoryName +
                 '}';
     }
 }

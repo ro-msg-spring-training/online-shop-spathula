@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 public class StrategyConfig {
     @Bean
     public Strategy chooseStrategy(@Value("${strategy}") StrategyName strategy) {
-        if (strategy == StrategyName.SingleLocationStrategy) {
+        if (strategy == StrategyName.SINGLELOCATIONSTRATEGY) {
             return new SingleLocationStrategy();
-        } else if (strategy == StrategyName.MostAbundantStrategy) {
+        } else if (strategy == StrategyName.MOSTABUNDANTSTRATEGY) {
             return new MostAbundantStrategy();
         }
         return null;

@@ -2,6 +2,7 @@ package ro.msg.learning.shop.converter;
 
 import org.springframework.stereotype.Component;
 import ro.msg.learning.shop.domain.Product;
+import ro.msg.learning.shop.domain.ProductCategory;
 import ro.msg.learning.shop.dto.ProductDto;
 
 @Component
@@ -13,9 +14,11 @@ public class ProductConverter extends BaseConverter<Product, ProductDto> {
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
                 .weight(productDto.getWeight())
-                .category(productDto.getCategory())
                 .imageUrl(productDto.getImageUrl())
                 .build();
+
+        ProductCategory category = ProductCategory.builder().build();
+        category.setId(productDto.getCategoryId());
 
         product.setId(productDto.getId());
 
@@ -29,7 +32,8 @@ public class ProductConverter extends BaseConverter<Product, ProductDto> {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .weight(product.getWeight())
-                .category(product.getCategory())
+                .categoryId(product.getCategory().getId())
+                .categoryName(product.getCategory().getName())
                 .imageUrl(product.getImageUrl())
                 .build();
 

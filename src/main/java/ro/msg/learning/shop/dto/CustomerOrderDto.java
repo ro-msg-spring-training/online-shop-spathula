@@ -12,9 +12,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Builder
 public class CustomerOrderDto extends BaseDto {
-    Location shippedFrom;
+    private int locationId;
 
-    Customer customer;
+    private String locationName;
+
+    private int customerId;
+
+    private String customerName;
 
     private LocalDateTime createdAt;
 
@@ -29,8 +33,8 @@ public class CustomerOrderDto extends BaseDto {
     @Override
     public String toString() {
         return "CustomerOrderDto{" +
-                "shippedFrom=" + shippedFrom +
-                ", customer=" + customer +
+                "shippedFrom=" + locationName +
+                ", customer=" + locationId +
                 ", createdAt=" + createdAt +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +

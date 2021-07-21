@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class CustomerOrdersDto {
-    private List<CustomerOrderDto> orders;
+public class StocksDto {
+    private List<StockDto> stocks;
 }
