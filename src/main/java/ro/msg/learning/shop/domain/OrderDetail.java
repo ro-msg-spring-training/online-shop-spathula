@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
@@ -12,9 +13,10 @@ import javax.persistence.ManyToOne;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@Table(name = "orderdetail")
 public class OrderDetail extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "order", referencedColumnName = "id")
+    @JoinColumn(name = "customerorder", referencedColumnName = "id")
     CustomerOrder customerOrder;
 
     @ManyToOne

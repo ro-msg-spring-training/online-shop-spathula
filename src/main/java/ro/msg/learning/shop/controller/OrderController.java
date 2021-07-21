@@ -18,7 +18,7 @@ public class OrderController {
     CustomerOrderConverter customerOrderConverter;
 
     @PostMapping("/orders")
-    public CustomerOrderDto placeOrder(@RequestBody PlacedOrderDto placedOrderDto) {
-        return customerOrderConverter.convertModelToDto(orderService.placeOrder(placedOrderDto));
+    public CustomerOrderDto createOrder(@RequestBody PlacedOrderDto placedOrderDto) {
+        return customerOrderConverter.convertModelToDto(orderService.createOrder(placedOrderDto));
     }
 }

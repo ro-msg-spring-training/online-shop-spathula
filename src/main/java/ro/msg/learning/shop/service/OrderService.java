@@ -8,7 +8,7 @@ import ro.msg.learning.shop.domain.Stock;
 import ro.msg.learning.shop.dto.PlacedOrderDto;
 import ro.msg.learning.shop.exception.OrderException;
 import ro.msg.learning.shop.repository.*;
-import ro.msg.learning.shop.strategy.SingleLocationStrategy;
+import ro.msg.learning.shop.strategy.Strategy;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +16,9 @@ import java.util.List;
 
 @Service
 public class OrderService {
+    @Autowired
+    private Strategy strategy;
+
     @Autowired
     private LocationRepository locationRepository;
 
@@ -37,25 +40,36 @@ public class OrderService {
         productRepository.findAll().forEach(product -> productIds.add(product.getId()));
 
         orderDetails.forEach(orderDetail -> {
+            if(orderDetail.getQuantity() <= 0)
+                throw new OrderException("Order is not valid!");
+
             if (!productIds.contains(orderDetail.getProduct().getId()))
                 throw new OrderException("One or more product does not exist!");
-            else orderDetail.setProduct(productRepository.findById(orderDetail.getProduct().getId()).get());
+
+            else orderDetail.setProduct(productRepository.findById(orderDetail.getProduct().getId()).orElse(null));
         });
     }
 
     private void updateStock(Stock stock) {
-        stockRepository.findById(stock.getId())
-                .ifPresent(s -> s.setQuantity(s.getQuantity() - stock.getQuantity()));
+        stockRepository.findByProductAndLocation(stock.getProduct(), stock.getLocation())
+                .ifPresent(s -> {
+                    s.setQuantity(s.getQuantity() - stock.getQuantity());
+                    stockRepository.save(s);
+                });
     }
 
-    public CustomerOrder placeOrder(PlacedOrderDto placedOrderDto) {
+    private void addOrderDetails(OrderDetail orderDetail, CustomerOrder order) {
+        orderDetail.setCustomerOrder(order);
+        detailRepository.save(orderDetail);
+    }
+
+    public CustomerOrder createOrder(PlacedOrderDto placedOrderDto) {
         List<OrderDetail> orderDetails = placedOrderDto.getOrderDetails();
         validateOrderDetails(orderDetails);
 
-        SingleLocationStrategy singleLocationStrategy = new SingleLocationStrategy();
-        List<Stock> orderStock = singleLocationStrategy.selectLocation(orderDetails, locationRepository.findAll(), stockRepository);
+        List<Stock> orderStock = strategy.selectLocation(orderDetails, locationRepository.findAll(), stockRepository);
 
-        if (orderStock == null) throw new OrderException("Did not find any location to process the order!");
+        if (orderStock.isEmpty()) throw new OrderException("Could not process the order!");
         orderStock.forEach(this::updateStock);
 
         CustomerOrder customerOrder = CustomerOrder.builder()
@@ -67,6 +81,9 @@ public class OrderService {
                 .streetAddress(placedOrderDto.getStreetAddress())
                 .build();
 
-        return orderRepository.save(customerOrder);
+        CustomerOrder order = orderRepository.save(customerOrder);
+        orderDetails.forEach(orderDetail -> addOrderDetails(orderDetail, order));
+
+        return order;
     }
 }
