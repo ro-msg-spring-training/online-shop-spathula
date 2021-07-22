@@ -1,7 +1,6 @@
 package ro.msg.learning.shop.dto;
 
 import lombok.*;
-import ro.msg.learning.shop.domain.ProductCategory;
 
 import java.math.BigDecimal;
 

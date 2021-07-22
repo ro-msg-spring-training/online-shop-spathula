@@ -12,10 +12,10 @@ import ro.msg.learning.shop.service.OrderService;
 @RestController
 public class OrderController {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    CustomerOrderConverter customerOrderConverter;
+    private CustomerOrderConverter customerOrderConverter;
 
     @PostMapping("/orders")
     public CustomerOrderDto createOrder(@RequestBody PlacedOrderDto placedOrderDto) {

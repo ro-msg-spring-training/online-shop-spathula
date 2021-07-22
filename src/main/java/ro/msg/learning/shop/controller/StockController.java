@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import ro.msg.learning.shop.converter.StockConverter;
-import ro.msg.learning.shop.domain.Stock;
 import ro.msg.learning.shop.dto.StockDto;
 import ro.msg.learning.shop.service.StockService;
 

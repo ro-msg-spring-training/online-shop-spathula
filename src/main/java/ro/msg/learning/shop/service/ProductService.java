@@ -1,8 +1,8 @@
 package ro.msg.learning.shop.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.domain.Product;
 import ro.msg.learning.shop.exception.RepositoryException;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public Product create(Product product) {
         log.trace("ProductService -> create : {}", product);

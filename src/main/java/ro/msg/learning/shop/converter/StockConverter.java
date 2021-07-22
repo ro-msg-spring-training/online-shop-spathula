@@ -19,8 +19,8 @@ public class StockConverter extends BaseConverter<Stock, StockDto>{
     @Override
     public StockDto convertModelToDto(Stock stock) {
         StockDto stockDto = StockDto.builder()
-                .location(stock.getLocation().toString())
-                .product(stock.getProduct().toString())
+                .location(stock.getLocation().getName())
+                .product(stock.getProduct().getName())
                 .quantity(stock.getQuantity())
                 .build();
 

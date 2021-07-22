@@ -35,8 +35,6 @@ public class CustomerOrderConverter extends BaseConverter<CustomerOrder, Custome
         CustomerOrderDto customerOrderDto = CustomerOrderDto.builder()
                 .locationId(customerOrder.getShippedFrom().getId())
                 .locationName(customerOrder.getShippedFrom().getName())
-                .customerId(customerOrder.getCustomer().getId())
-                .customerName(customerOrder.getCustomer().getFirstName() + " " + customerOrder.getCustomer().getLastName())
                 .createdAt(customerOrder.getCreatedAt())
                 .country(customerOrder.getCountry())
                 .city(customerOrder.getCity())

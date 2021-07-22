@@ -1,8 +1,6 @@
 package ro.msg.learning.shop.dto;
 
 import lombok.*;
-import ro.msg.learning.shop.domain.Customer;
-import ro.msg.learning.shop.domain.Location;
 
 import java.time.LocalDateTime;
 

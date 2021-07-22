@@ -2,6 +2,7 @@ package ro.msg.learning.shop.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -11,14 +12,17 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Builder
 public class Customer extends BaseEntity {
+    @Column(name = "firstname")
     private String firstName;
 
+    @Column(name = "lastname")
     private String lastName;
 
     private String username;
 
     private String password;
 
+    @Column(name = "emailaddress")
     private String emailAddress;
 
     @Override

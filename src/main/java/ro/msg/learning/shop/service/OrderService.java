@@ -1,6 +1,6 @@
 package ro.msg.learning.shop.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.domain.CustomerOrder;
 import ro.msg.learning.shop.domain.OrderDetail;
@@ -15,24 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    @Autowired
-    private Strategy strategy;
+    private final Strategy strategy;
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
-    @Autowired
-    private CustomerOrderRepository orderRepository;
+    private final CustomerOrderRepository orderRepository;
 
-    @Autowired
-    private OrderDetailRepository detailRepository;
+    private final OrderDetailRepository detailRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     private void validateOrderDetails(List<OrderDetail> orderDetails) {
         List<Integer> productIds = new ArrayList<>();
