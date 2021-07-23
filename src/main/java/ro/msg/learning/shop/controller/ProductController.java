@@ -1,29 +1,26 @@
 package ro.msg.learning.shop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.learning.shop.converter.ProductConverter;
 import ro.msg.learning.shop.domain.Product;
 import ro.msg.learning.shop.dto.ProductDto;
-import ro.msg.learning.shop.dto.ProductsDto;
 import ro.msg.learning.shop.service.ProductService;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    private ProductConverter productConverter;
+    private final ProductConverter productConverter;
 
     @GetMapping("/products")
-    public ProductsDto getProducts() {
+    public List<ProductDto> getProducts() {
         List<Product> products = productService.readAll();
-        List<ProductDto> productDtos = productConverter.convertModelsToDtos(products);
-        return new ProductsDto(productDtos);
+        return productConverter.convertModelsToDtos(products);
     }
 
     @PostMapping("/products")

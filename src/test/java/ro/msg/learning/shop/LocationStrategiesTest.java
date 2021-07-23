@@ -1,12 +1,12 @@
 package ro.msg.learning.shop;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ro.msg.learning.shop.domain.*;
+import ro.msg.learning.shop.dto.PlacedOrderDto;
 import ro.msg.learning.shop.repository.*;
 import ro.msg.learning.shop.strategy.MostAbundantStrategy;
 import ro.msg.learning.shop.strategy.SingleLocationStrategy;
@@ -47,6 +47,7 @@ class LocationStrategiesTest {
         OrderDetail orderDetail1 = OrderDetail.builder().quantity(5).product(product1).build();
         OrderDetail orderDetail2 = OrderDetail.builder().quantity(2).product(product2).build();
         List<OrderDetail> orderDetails = Arrays.asList(orderDetail1, orderDetail2);
+        PlacedOrderDto placedOrderDto = PlacedOrderDto.builder().orderDetails(orderDetails).build();
 
         List<Stock> expectedResult = Arrays.asList(Stock.builder().location(location1).product(product1).quantity(5).build(),
                 Stock.builder().location(location1).product(product2).quantity(2).build());
@@ -57,7 +58,7 @@ class LocationStrategiesTest {
                             && stock.getLocation().getName().equals(arguments.getArgument(1, Location.class).getName())).findFirst());
 
         Strategy strategy = new SingleLocationStrategy();
-        assertThat(strategy.selectLocation(orderDetails, Arrays.asList(location1, location2), stockRepository))
+        assertThat(strategy.getOrderStock(placedOrderDto, Arrays.asList(location1, location2), stockRepository))
                 .isEqualTo(expectedResult);
     }
 
@@ -70,6 +71,7 @@ class LocationStrategiesTest {
         OrderDetail orderDetail1 = OrderDetail.builder().quantity(5).product(product1).build();
         OrderDetail orderDetail2 = OrderDetail.builder().quantity(2).product(product2).build();
         List<OrderDetail> orderDetails = Arrays.asList(orderDetail1, orderDetail2);
+        PlacedOrderDto placedOrderDto = PlacedOrderDto.builder().orderDetails(orderDetails).build();
 
         List<Stock> expectedResult = Arrays.asList(Stock.builder().location(location1).product(product1).quantity(5).build(),
                 Stock.builder().location(location2).product(product2).quantity(2).build());
@@ -80,7 +82,7 @@ class LocationStrategiesTest {
                         .sorted(Comparator.comparing(Stock::getQuantity).reversed()).collect(Collectors.toList()));
 
         Strategy strategy = new MostAbundantStrategy();
-        assertThat(strategy.selectLocation(orderDetails, Arrays.asList(location1, location2), stockRepository))
+        assertThat(strategy.getOrderStock(placedOrderDto, Arrays.asList(location1, location2), stockRepository))
                 .isEqualTo(expectedResult);
     }
 }

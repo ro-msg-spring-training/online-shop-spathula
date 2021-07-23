@@ -8,5 +8,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 public class BaseDto implements Serializable {
-    private int id;
+    protected int id;
 }

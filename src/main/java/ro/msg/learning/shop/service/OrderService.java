@@ -29,6 +29,8 @@ public class OrderService {
 
     private final ProductRepository productRepository;
 
+    private final CustomerRepository customerRepository;
+
     private void validateOrderDetails(List<OrderDetail> orderDetails) {
         List<Integer> productIds = new ArrayList<>();
 
@@ -59,15 +61,15 @@ public class OrderService {
     }
 
     public CustomerOrder createOrder(PlacedOrderDto placedOrderDto) {
-        List<OrderDetail> orderDetails = placedOrderDto.getOrderDetails();
-        validateOrderDetails(orderDetails);
+        validateOrderDetails(placedOrderDto.getOrderDetails());
 
-        List<Stock> orderStock = strategy.selectLocation(orderDetails, locationRepository.findAll(), stockRepository);
+        List<Stock> orderStock = strategy.getOrderStock(placedOrderDto, locationRepository.findAll(), stockRepository);
 
         if (orderStock.isEmpty()) throw new OrderException("Could not process the order!");
         orderStock.forEach(this::updateStock);
 
         CustomerOrder customerOrder = CustomerOrder.builder()
+                .customer(customerRepository.findById(33).orElseThrow())
                 .shippedFrom(orderStock.get(0).getLocation())
                 .createdAt(LocalDateTime.now())
                 .country(placedOrderDto.getCountry())
@@ -77,8 +79,8 @@ public class OrderService {
                 .build();
 
         CustomerOrder order = orderRepository.save(customerOrder);
-        orderDetails.forEach(orderDetail -> addOrderDetails(orderDetail, order));
+        placedOrderDto.getOrderDetails().forEach(orderDetail -> addOrderDetails(orderDetail, order));
 
-        return order;
+        return customerOrder;
     }
 }

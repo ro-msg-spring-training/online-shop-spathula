@@ -1,5 +1,6 @@
 package ro.msg.learning.shop.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +9,16 @@ import ro.msg.learning.shop.service.TestService;
 
 @RestController
 @Profile("test")
+@RequiredArgsConstructor
 public class TestController {
-    @Autowired
-    private TestService testService;
+    private final TestService testService;
 
-    @GetMapping(value = "/populate")
+    @GetMapping(value = "/test/populate")
     public void populate() {
         testService.populate();
     }
 
-    @GetMapping(value = "/clear")
+    @GetMapping(value = "/test/clear")
     public void clear() {
         testService.clear();
     }

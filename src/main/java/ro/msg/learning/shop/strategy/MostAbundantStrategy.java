@@ -4,6 +4,7 @@ import ro.msg.learning.shop.domain.Location;
 import ro.msg.learning.shop.domain.OrderDetail;
 import ro.msg.learning.shop.domain.Product;
 import ro.msg.learning.shop.domain.Stock;
+import ro.msg.learning.shop.dto.PlacedOrderDto;
 import ro.msg.learning.shop.repository.StockRepository;
 
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ public class MostAbundantStrategy implements Strategy {
     }
 
     @Override
-    public List<Stock> selectLocation(List<OrderDetail> orderDetails, List<Location> locations, StockRepository stockRepository) {
+    public List<Stock> getOrderStock(PlacedOrderDto placedOrderDto, List<Location> locations, StockRepository stockRepository) {
         List<Stock> orderStock = new ArrayList<>();
 
-        for (OrderDetail orderDetail : orderDetails) {
+        for (OrderDetail orderDetail : placedOrderDto.getOrderDetails()) {
             Stock stock = checkStockAvailability(orderDetail.getProduct(), stockRepository);
             if (stock == null || stock.getQuantity() < orderDetail.getQuantity()) return new ArrayList<>();
             else orderStock.add(Stock.builder().location(stock.getLocation()).product(stock.getProduct()).quantity(orderDetail.getQuantity()).build());

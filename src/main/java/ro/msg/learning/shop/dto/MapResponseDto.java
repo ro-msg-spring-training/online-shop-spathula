@@ -11,6 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class StocksDto {
-    private List<StockDto> stocks;
+public class MapResponseDto {
+    private List<Integer> distance;
+
+    @Override
+    public String toString() {
+        return "MapResponseDto{" +
+                "distance=" + distance +
+                '}';
+    }
 }

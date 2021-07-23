@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS Customer (
   FirstName VARCHAR(50),
   LastName VARCHAR(50),
   Username VARCHAR(50) UNIQUE,
-  Password VARCHAR(50),
+  Password VARCHAR,
   EmailAddress VARCHAR(100) UNIQUE
 );
 
