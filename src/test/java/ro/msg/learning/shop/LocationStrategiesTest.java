@@ -76,7 +76,7 @@ class LocationStrategiesTest {
         List<Stock> expectedResult = Arrays.asList(Stock.builder().location(location1).product(product1).quantity(5).build(),
                 Stock.builder().location(location2).product(product2).quantity(2).build());
 
-        when(stockRepository.findByProductOrderByQuantityDesc(any()))
+        when(stockRepository.findByProductAndLocation(any(), any()))
                 .thenAnswer(arguments -> stocks.stream()
                     .filter(stock -> stock.getProduct().getName().equals(arguments.getArgument(0, Product.class).getName()))
                         .sorted(Comparator.comparing(Stock::getQuantity).reversed()).collect(Collectors.toList()));

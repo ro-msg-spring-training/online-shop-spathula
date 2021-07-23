@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MostAbundantStrategy implements Strategy {
-    private Stock checkStockAvailability(Product product, StockRepository stockRepository) {
-        return stockRepository.findByProductOrderByQuantityDesc(product).stream().findFirst().orElse(null);
+    private Stock checkStockAvailability(Product product, Integer quantity, StockRepository stockRepository) {
+        return stockRepository.findByProductAndQuantityGreaterThanEqualOrderByQuantityDesc(product, quantity).stream().findFirst().orElse(null);
     }
 
     @Override
@@ -20,8 +20,8 @@ public class MostAbundantStrategy implements Strategy {
         List<Stock> orderStock = new ArrayList<>();
 
         for (OrderDetail orderDetail : placedOrderDto.getOrderDetails()) {
-            Stock stock = checkStockAvailability(orderDetail.getProduct(), stockRepository);
-            if (stock == null || stock.getQuantity() < orderDetail.getQuantity()) return new ArrayList<>();
+            Stock stock = checkStockAvailability(orderDetail.getProduct(), orderDetail.getQuantity(), stockRepository);
+            if (stock == null) return new ArrayList<>();
             else orderStock.add(Stock.builder().location(stock.getLocation()).product(stock.getProduct()).quantity(orderDetail.getQuantity()).build());
         }
 

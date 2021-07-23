@@ -24,7 +24,7 @@ public class OrderController {
     @PostMapping("/orders")
     public CustomerOrderDto createOrder(@RequestBody PlacedOrderDto placedOrderDto) {
         CustomerOrder order = orderService.createOrder(placedOrderDto);
-        mailService.orderSuccessEmail(order);
+        //mailService.orderSuccessEmail(order);
         return customerOrderConverter.convertModelToDto(order);
     }
 }

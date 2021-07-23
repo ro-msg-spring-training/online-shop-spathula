@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface StockRepository extends Repository<Stock, Integer> {
     Optional<Stock> findByProductAndLocation(Product product, Location location);
-    Optional<Stock> findByProductAndLocationAndQuantityGreaterThan(Product product, Location location, Integer quantity);
-    List<Stock> findByProductOrderByQuantityDesc(Product product);
+    Optional<Stock> findByProductAndLocationAndQuantityGreaterThanEqual(Product product, Location location, Integer quantity);
+    List<Stock> findByProductAndQuantityGreaterThanEqualOrderByQuantityDesc(Product product, Integer quantity);
     List<Stock> findByLocationId(Integer locationId);
 }
