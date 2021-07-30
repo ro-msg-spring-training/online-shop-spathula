@@ -1,0 +1,80 @@
+CREATE TABLE IF NOT EXISTS Supplier (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS ProductCategory (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(50) UNIQUE,
+  Description VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS Product (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(50) UNIQUE,
+  Description VARCHAR(100),
+  Price DECIMAL,
+  Weight DOUBLE,
+  Category INT,
+  FOREIGN KEY (Category) REFERENCES ProductCategory(Id),
+  Supplier INT,
+  FOREIGN KEY (Supplier) REFERENCES Supplier(Id),
+  ImageUrl VARCHAR(200)
+);
+
+CREATE TABLE IF NOT EXISTS Location (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Name VARCHAR(50) UNIQUE,
+  Country VARCHAR(50),
+  City VARCHAR(50),
+  County VARCHAR(50),
+  StreetAddress VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS Stock (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Product INT,
+  FOREIGN KEY (Product) REFERENCES Product(Id),
+  Location INT,
+  FOREIGN KEY (Location) REFERENCES Location(Id),
+  Quantity INT
+);
+
+CREATE TABLE IF NOT EXISTS Revenue (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  Location INT,
+  FOREIGN KEY (Location) REFERENCES Location(Id),
+  RevenueDate DATE,
+  RevenueSum DECIMAL
+);
+
+CREATE TABLE IF NOT EXISTS Customer (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Username VARCHAR(50) UNIQUE,
+  Password VARCHAR,
+  EmailAddress VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS CustomerOrder (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  ShippedFrom INT,
+  FOREIGN KEY (ShippedFrom) REFERENCES Location(Id),
+  Customer INT,
+  FOREIGN KEY (Customer) REFERENCES Customer(Id),
+  CreatedAt DATE,
+  Country VARCHAR(50),
+  City VARCHAR(50),
+  County VARCHAR(50),
+  StreetAddress VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS OrderDetail (
+  Id INT AUTO_INCREMENT PRIMARY KEY,
+  CustomerOrder INT,
+  FOREIGN KEY (CustomerOrder) REFERENCES CustomerOrder(Id),
+  Product INT,
+  FOREIGN KEY (Product) REFERENCES Product(Id),
+  Quantity INT
+);
